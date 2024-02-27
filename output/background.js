@@ -2,15 +2,14 @@
 const NOTIFICATION = 'StandUpOrYoullTurnIntoABlobFish-NOTIFICATION';
 const requestName = 'interval';
 browser.alarms.create('', {
-  periodInMinutes: 60,
+  periodInMinutes: 0.1,
 });
 browser.alarms.onAlarm.addListener(() => {
   browser.notifications.create(NOTIFICATION, {
     type: 'basic',
-    iconUrl: browser.runtime.getURL('icons/icon.png'),
+    iconUrl: browser.runtime.getURL('./icons/128.png'),
     title: 'StandUpOrYoullTurnIntoABlobFish',
     message: notifications[Math.floor(Math.random() * notifications.length)],
-    imageUrl: browser.runtime.getURL('icons/icon.png'),
   });
 });
 browser.runtime.onMessageExternal.addListener((request, sender, sendResponse) => {
