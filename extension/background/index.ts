@@ -2,7 +2,7 @@ const NOTIFICATION = 'StandUpOrYoullTurnIntoABlobFish-NOTIFICATION';
 const requestName = 'interval';
 
 browser.alarms.create('', {
-  periodInMinutes: localStorage.getItem(requestName) ? parseInt(localStorage.getItem(requestName)!) : 60,
+  periodInMinutes: 60,
 });
 
 browser.alarms.onAlarm.addListener(() => {
