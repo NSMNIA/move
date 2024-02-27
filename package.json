@@ -1,0 +1,15 @@
+{
+  "name": "stand-up-or-youll-turn-into-a-blob-fish",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "prepare": "husky install",
+    "dev": "turbo dev --parallel --continue",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "release": "turbo release --concurrency=1"
+  },
+  "devDependencies": {
+    "turbo": "^1.10.12"
+  }
+}

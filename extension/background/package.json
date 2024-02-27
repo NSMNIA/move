@@ -1,0 +1,12 @@
+{
+  "name": "background",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc -p .",
+    "dev": "pnpm run build --watch "
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
