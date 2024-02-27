@@ -29,6 +29,9 @@ importers:
 
   extension/background:
     devDependencies:
+      '@types/firefox-webext-browser':
+        specifier: ^120.0.1
+        version: 120.0.1
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
@@ -262,6 +265,10 @@ packages:
 
   /@tsconfig/node16@1.0.4:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
+    dev: true
+
+  /@types/firefox-webext-browser@120.0.1:
+    resolution: {integrity: sha512-IR+NpPC+/o9TSTelcvT/w3fXTanX3LrpVxC5EQrlQyTjyWOKFz8O2mCJQ9VuejBz4NtovCGGKacXQ/VyY63L0A==}
     dev: true
 
   /@types/minimist@1.2.5:
