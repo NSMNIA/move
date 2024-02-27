@@ -14,6 +14,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^17.6.7
         version: 17.8.1
+      '@types/firefox-webext-browser':
+        specifier: ^120.0.1
+        version: 120.0.1
       husky:
         specifier: ^8.0.3
         version: 8.0.3

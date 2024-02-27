@@ -7,7 +7,6 @@
     "dev": "pnpm run build --watch "
   },
   "devDependencies": {
-    "@types/firefox-webext-browser": "^120.0.1",
     "typescript": "^5.3.3"
   }
 }
