@@ -1,8 +1,7 @@
 'use strict';
 const NOTIFICATION = 'StandUpOrYoullTurnIntoABlobFish-NOTIFICATION';
-const requestName = 'interval';
 browser.alarms.create('', {
-  periodInMinutes: 0.1,
+  periodInMinutes: 30,
 });
 browser.alarms.onAlarm.addListener(() => {
   browser.notifications.create(NOTIFICATION, {
@@ -11,15 +10,6 @@ browser.alarms.onAlarm.addListener(() => {
     title: 'StandUpOrYoullTurnIntoABlobFish',
     message: notifications[Math.floor(Math.random() * notifications.length)],
   });
-});
-browser.runtime.onMessageExternal.addListener((request, sender, sendResponse) => {
-  if (request.name !== requestName) {
-    return sendResponse('Invalid request');
-  }
-  if (isNaN(parseInt(request.data))) {
-    return sendResponse('Invalid data');
-  }
-  localStorage.setItem(request.name, request.data);
 });
 const notifications = [
   'Feeling like a deflated pool float? Get up and move before you turn into a real-life blob fish!',
