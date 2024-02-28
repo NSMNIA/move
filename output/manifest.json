@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "StandUpOrYoullTurnIntoABlobFish",
-  "short_name": "StandUpOrYoullTurnIntoABlobFish",
-  "version": "0.0.1",
+  "name": "StandUpOrYoullTurnIntoABlob",
+  "short_name": "StandUpOrYoullTurnIntoABlob",
+  "version": "0.0.2",
   "description": "Fight the Blob, Stand for Your Health!",
   "icons": {
     "32": "icons/32.png",
@@ -10,7 +10,7 @@
     "96": "icons/96.png",
     "128": "icons/128.png"
   },
-  "permissions": ["storage", "alarms", "notifications"],
+  "permissions": ["alarms", "notifications"],
   "background": {
     "scripts": ["background.js"]
   }
