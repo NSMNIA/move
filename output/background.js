@@ -1,89 +1,89 @@
 'use strict';
 (() => {
-  var R = 'StandUpOrYoullTurnIntoABlobFish-NOTIFICATION';
-  var d = 'sitTooLong';
+  var x = 'StandUpOrYoullTurnIntoABlobFish-NOTIFICATION';
+  var l = 'sitTooLong';
   var w = 'heartbeat';
-  var c = 'blobfish_sessions',
+  var d = 'blobfish_sessions',
     y = 'blobfish_meta',
     m = 'blobfish_settings';
-  async function h() {
-    return ((await browser.storage.local.get(c))[c] ?? []).map(D);
+  async function I() {
+    return ((await browser.storage.local.get(d))[d] ?? []).map(D);
   }
   function D(t) {
     return { date: t.date, sessions: t.sessions ?? [], offlineMs: t.offlineMs ?? 0 };
   }
   async function i() {
     let t = f(Date.now());
-    return (await h()).find((a) => a.date === t) ?? { date: t, sessions: [], offlineMs: 0 };
+    return (await I()).find((a) => a.date === t) ?? { date: t, sessions: [], offlineMs: 0 };
   }
-  async function u(t) {
+  async function c(t) {
     let e = D(t),
-      o = ((await browser.storage.local.get(c))[c] ?? []).map(D),
+      o = ((await browser.storage.local.get(d))[d] ?? []).map(D),
       r = o.findIndex((n) => n.date === e.date);
     (r >= 0 ? (o[r] = e) : o.push(e),
-      o.sort((n, M) => n.date.localeCompare(M.date)),
-      await browser.storage.local.set({ [c]: o.slice(-8) }));
+      o.sort((n, _) => n.date.localeCompare(_.date)),
+      await browser.storage.local.set({ [d]: o.slice(-8) }));
   }
-  async function k(t) {
-    return (await h()).find((a) => a.date === t) ?? { date: t, sessions: [], offlineMs: 0 };
+  async function H(t) {
+    return (await I()).find((a) => a.date === t) ?? { date: t, sessions: [], offlineMs: 0 };
   }
   function f(t) {
     let e = new Date(t);
     return `${e.getFullYear()}-${String(e.getMonth() + 1).padStart(2, '0')}-${String(e.getDate()).padStart(2, '0')}`;
   }
-  async function N() {
-    let t = await h(),
+  async function L() {
+    let t = await I(),
       e = new Map(t.map((n) => [n.date, n])),
       a = [],
       o = new Date(),
       r = new Date(o.getFullYear(), o.getMonth(), o.getDate() - 6);
     for (let n = 0; n < 7; n++) {
-      let M = new Date(r.getFullYear(), r.getMonth(), r.getDate() + n),
-        I = f(M.getTime());
-      a.push(D(e.get(I) ?? { date: I, sessions: [], offlineMs: 0 }));
+      let _ = new Date(r.getFullYear(), r.getMonth(), r.getDate() + n),
+        k = f(_.getTime());
+      a.push(D(e.get(k) ?? { date: k, sessions: [], offlineMs: 0 }));
     }
     return a;
   }
   async function p() {
     return { walkEnabled: (await browser.storage.local.get(m))[m]?.walkEnabled === !0 };
   }
-  async function l() {
+  async function u() {
     return (await i()).sessions.find((a) => a.endTime === void 0)?.posture ?? 'sitting';
   }
-  async function L() {
+  async function T() {
     let e = (await i()).sessions.find((a) => a.endTime === void 0);
     return !e || e.posture !== 'sitting' ? null : Date.now() - e.startTime;
   }
-  async function S(t) {
+  async function b(t) {
     let e = await p();
     if (t === 'walking' && !e.walkEnabled) return;
     let a = await i();
     if (a.sessions.find((n) => n.endTime === void 0)?.posture === t) return;
     let r = Date.now();
     for (let n of a.sessions) n.endTime === void 0 && (n.endTime = r);
-    (a.sessions.push({ posture: t, startTime: r }), await u(a), await s());
+    (a.sessions.push({ posture: t, startTime: r }), await c(a), await s());
   }
   async function s() {
-    await browser.alarms.clear(d);
+    await browser.alarms.clear(l);
     let e = (await i()).sessions.find((n) => n.endTime === void 0);
     if (!e || e.posture !== 'sitting') return;
     let a = Date.now(),
       r = a - e.startTime >= 27e5 ? a + 1e3 : e.startTime + 27e5;
-    await browser.alarms.create(d, { when: r });
+    await browser.alarms.create(l, { when: r });
   }
-  async function b(t, e) {
+  async function A(t, e) {
     if (e <= 0) return;
     let a = Math.min(e, 864e5),
-      o = await k(t);
-    ((o.offlineMs += a), await u(o));
+      o = await H(t);
+    ((o.offlineMs += a), await c(o));
   }
-  async function T() {
+  async function M() {
     let t = Date.now(),
       e = await i();
     for (let a of e.sessions) a.endTime === void 0 && (a.endTime = t);
-    (e.sessions.push({ posture: 'sitting', startTime: t }), await u(e), await s());
+    (e.sessions.push({ posture: 'sitting', startTime: t }), await c(e), await s());
   }
-  async function q() {
+  async function X() {
     return (await browser.storage.local.get(y))[y] ?? null;
   }
   async function F(t) {
@@ -91,52 +91,33 @@
   }
   async function g() {
     let t = Date.now(),
-      e = await q();
+      e = await X();
     if (e === null) {
       await F({ lastHeartbeatMs: t });
       return;
     }
     let a = t - e.lastHeartbeatMs;
-    (a > 9e5 && (await b(f(t), Math.min(a, 864e5)), await T()), await F({ lastHeartbeatMs: t }));
+    (a > 9e5 && (await A(f(t), Math.min(a, 864e5)), await M()), await F({ lastHeartbeatMs: t }));
   }
-  async function _() {
+  async function R() {
     (await browser.alarms.get(w)) || (await browser.alarms.create(w, { periodInMinutes: 5 }));
   }
-  var A = null,
-    H = !1;
-  function x() {
-    H ||
-      ((H = !0),
+  var h = null,
+    C = !1;
+  function v() {
+    C ||
+      ((C = !0),
       browser.idle.setDetectionInterval(60),
       browser.idle.onStateChanged.addListener((t) => {
         if (t === 'active') {
-          if (A !== null) {
-            let e = Date.now() - A;
-            (e >= 3e4 && (async () => (await b(f(Date.now()), e), await T()))(), (A = null));
+          if (h !== null) {
+            let e = Date.now() - h;
+            (e >= 3e4 && (async () => (await A(f(Date.now()), e), await M()))(), (h = null));
           }
-        } else A = Date.now();
+        } else h = Date.now();
       }));
   }
-  async function Y(t) {
-    let e = await i(),
-      a = await N(),
-      o = await p();
-    return { posture: t, day: e, week: a, settings: o };
-  }
-  function G() {
-    browser.runtime.onMessage.addListener(async (t) => {
-      if ((await g(), t.type === 'GET_STATE')) {
-        let e = await l();
-        return Y(e);
-      }
-      if (t.type === 'SET_POSTURE' && t.posture) {
-        await S(t.posture);
-        let e = await l();
-        return Y(e);
-      }
-    });
-  }
-  var C = [
+  var Y = [
     'Feeling like a deflated pool float? Get up and move before you turn into a real-life blob fish!',
     'Your chair is plotting world domination. Stand up and break the cycle of chair tyranny!',
     "Don't let your butt become one with the chair! Stand up and give it some breathing room.",
@@ -148,14 +129,14 @@
     "Remember, the only time it's okay to be a couch potato is... actually, just stand up.",
     'Your spine called. It says it misses being vertical. Please stand up.',
   ];
-  function V(t) {
+  function q(t) {
     let e = Math.max(0, Math.floor(t / 6e4));
     if (e < 1) return 'under a minute';
     let a = Math.floor(e / 60),
       o = e % 60;
     return a > 0 ? (o === 0 ? `${a}h` : `${a}h ${o}m`) : `${e} min`;
   }
-  var $ = [
+  var G = [
     (t) => `You've been sitting for ${t} \u2014 time to stand up`,
     (t) => `${t} seated \u2014 stretch your legs`,
     (t) => `Still sitting after ${t}? Time to move`,
@@ -163,60 +144,86 @@
     (t) => `BlobFish mode: ${t} seated`,
     (t) => `${t} sitting \u2014 your spine is asking for a break`,
   ];
-  function K(t) {
-    let e = V(t),
-      a = $[Math.floor(Math.random() * $.length)];
+  function V(t) {
+    let e = q(t),
+      a = G[Math.floor(Math.random() * G.length)];
     return a(e);
   }
-  function B() {
-    return C[Math.floor(Math.random() * C.length)];
+  function J() {
+    return Y[Math.floor(Math.random() * Y.length)];
   }
-  async function P() {
+  async function E(t) {
+    let e = V(t),
+      a = J(),
+      o = browser.runtime.getURL('icons/128.png'),
+      r = { type: 'basic', title: e, message: a };
+    try {
+      await browser.notifications.create(x, { ...r, iconUrl: o });
+    } catch {
+      await browser.notifications.create(x, r);
+    }
+  }
+  async function $(t) {
+    let e = await i(),
+      a = await L(),
+      o = await p();
+    return { posture: t, day: e, week: a, settings: o };
+  }
+  function K() {
+    browser.runtime.onMessage.addListener(async (t) => {
+      if ((await g(), t.type === 'GET_STATE')) {
+        let e = await u();
+        return $(e);
+      }
+      if (t.type === 'SET_POSTURE' && t.posture) {
+        await b(t.posture);
+        let e = await u();
+        return $(e);
+      }
+      if (t.type === 'TEST_NOTIFICATION') {
+        let e = (await T()) ?? 27e5;
+        return (await E(e), { ok: !0 });
+      }
+    });
+  }
+  async function N() {
     await g();
     let t = await i();
     (t.sessions.some((a) => a.endTime === void 0) ||
-      (t.sessions.push({ posture: 'sitting', startTime: Date.now() }), await u(t)),
+      (t.sessions.push({ posture: 'sitting', startTime: Date.now() }), await c(t)),
       await s());
   }
-  async function W() {
-    (await p()).walkEnabled || ((await l()) === 'walking' && (await S('standing')));
+  async function B() {
+    (await p()).walkEnabled || ((await u()) === 'walking' && (await b('standing')));
   }
-  function z() {
-    (G(),
+  function W() {
+    (K(),
       browser.storage.local.onChanged.addListener((t) => {
-        !t[m] || t[m].newValue?.walkEnabled === !0 || W();
+        !t[m] || t[m].newValue?.walkEnabled === !0 || B();
       }),
       browser.runtime.onInstalled.addListener(async () => {
-        (await _(), x(), await P());
+        (await R(), v(), await N());
       }),
       browser.runtime.onStartup.addListener(async () => {
-        (await _(), x(), await P());
+        (await R(), v(), await N());
       }),
       browser.alarms.onAlarm.addListener(async (t) => {
         if (t.name === w) {
           await g();
           return;
         }
-        if (t.name !== d) return;
-        if ((await l()) !== 'sitting') {
+        if (t.name !== l) return;
+        if ((await u()) !== 'sitting') {
           await s();
           return;
         }
-        let a = await L();
+        let a = await T();
         if (a == null) {
           await s();
           return;
         }
-        let o = K(a),
-          r = B();
-        (await browser.notifications.create(R, {
-          type: 'basic',
-          iconUrl: browser.runtime.getURL('./icons/128.png'),
-          title: o,
-          message: r,
-        }),
-          await browser.alarms.create(d, { when: Date.now() + 9e5 }));
+        (await E(a), await browser.alarms.create(l, { when: Date.now() + 9e5 }));
       }));
   }
-  z();
+  W();
 })();

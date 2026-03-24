@@ -1,18 +1,21 @@
 'use strict';
 (() => {
   var e = 'blobfish_settings';
-  async function a() {
-    let t = (await browser.storage.local.get(e))[e];
-    document.getElementById('walk-enabled').checked = !!t?.walkEnabled;
-  }
   async function o() {
-    let n = document.getElementById('walk-enabled').checked;
-    await browser.storage.local.set({ [e]: { walkEnabled: n } });
+    let n = (await browser.storage.local.get(e))[e];
+    document.getElementById('walk-enabled').checked = !!n?.walkEnabled;
+  }
+  async function a() {
+    let t = document.getElementById('walk-enabled').checked;
+    await browser.storage.local.set({ [e]: { walkEnabled: t } });
   }
   document.addEventListener('DOMContentLoaded', () => {
-    (a(),
+    (o(),
       document.getElementById('walk-enabled').addEventListener('change', () => {
-        o();
+        a();
+      }),
+      document.getElementById('test-notification').addEventListener('click', () => {
+        browser.runtime.sendMessage({ type: 'TEST_NOTIFICATION' });
       }));
   });
 })();

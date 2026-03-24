@@ -1,3 +1,5 @@
+import { NOTIFICATION_ID } from './constants';
+
 export const SIT_REMINDER_MESSAGES = [
   'Feeling like a deflated pool float? Get up and move before you turn into a real-life blob fish!',
   'Your chair is plotting world domination. Stand up and break the cycle of chair tyranny!',
@@ -38,4 +40,21 @@ export function randomSitReminderTitle(sittingMs: number): string {
 
 export function randomSitReminderMessage(): string {
   return SIT_REMINDER_MESSAGES[Math.floor(Math.random() * SIT_REMINDER_MESSAGES.length)];
+}
+
+export async function showSitReminderNotification(sittingMs: number): Promise<void> {
+  const title = randomSitReminderTitle(sittingMs);
+  const message = randomSitReminderMessage();
+  const iconUrl = browser.runtime.getURL('icons/128.png');
+  const base: browser.notifications.CreateNotificationOptions = {
+    type: 'basic',
+    title,
+    message,
+  };
+
+  try {
+    await browser.notifications.create(NOTIFICATION_ID, { ...base, iconUrl });
+  } catch {
+    await browser.notifications.create(NOTIFICATION_ID, base);
+  }
 }

@@ -1,8 +1,8 @@
-import { NOTIFICATION_ID, SETTINGS_KEY, HEARTBEAT_ALARM_NAME, SIT_ALARM_NAME, SIT_REPEAT_MS } from './constants';
+import { SETTINGS_KEY, HEARTBEAT_ALARM_NAME, SIT_ALARM_NAME, SIT_REPEAT_MS } from './constants';
 import { ensureHeartbeatAlarm, recordHeartbeatGap } from './heartbeat';
 import { initIdleTracking } from './idle';
 import { registerMessageHandler } from './messaging';
-import { randomSitReminderMessage, randomSitReminderTitle } from './notifications';
+import { showSitReminderNotification } from './notifications';
 import { getCurrentPosture, getCurrentSittingDurationMs, scheduleSitReminderAlarm } from './posture';
 import { ensureActiveSession } from './startup';
 import { downgradeWalkingIfDisabled } from './walking';
@@ -48,14 +48,7 @@ export function registerAllListeners(): void {
       return;
     }
 
-    const title = randomSitReminderTitle(sittingMs);
-    const message = randomSitReminderMessage();
-    await browser.notifications.create(NOTIFICATION_ID, {
-      type: 'basic',
-      iconUrl: browser.runtime.getURL('./icons/128.png'),
-      title,
-      message,
-    });
+    await showSitReminderNotification(sittingMs);
 
     await browser.alarms.create(SIT_ALARM_NAME, {
       when: Date.now() + SIT_REPEAT_MS,

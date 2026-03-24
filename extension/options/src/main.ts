@@ -16,4 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('walk-enabled')!.addEventListener('change', () => {
     void save();
   });
+  document.getElementById('test-notification')!.addEventListener('click', () => {
+    void browser.runtime.sendMessage({ type: 'TEST_NOTIFICATION' });
+  });
 });

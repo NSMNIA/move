@@ -52,6 +52,19 @@
       font-size: 0.85rem;
       color: var(--muted);
     }
+    button.secondary {
+      margin-top: 14px;
+      padding: 8px 14px;
+      font: inherit;
+      cursor: pointer;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #1a1c24;
+      color: var(--text);
+    }
+    button.secondary:hover {
+      border-color: var(--muted);
+    }
   </style>
 </head>
 <body>
@@ -65,6 +78,14 @@
     </label>
     <p class="hint">
       Off by default. When enabled, the toolbar popup adds a third mode next to Sitting and Standing so you can log time on a treadmill / walking pad.
+    </p>
+  </div>
+
+  <div class="card">
+    <p style="margin: 0 0 8px;">Notifications</p>
+    <button type="button" class="secondary" id="test-notification">Send test notification</button>
+    <p class="hint" style="margin-left: 0;">
+      Uses the same title/body as sit reminders. If nothing appears, check Firefox → Settings → Privacy &amp; Security → Permissions → Notifications for this extension.
     </p>
   </div>
 

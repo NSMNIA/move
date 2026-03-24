@@ -1,6 +1,8 @@
+import { SIT_THRESHOLD_MS } from './constants';
 import { getRollingWeek, getTodayData } from './days';
 import { recordHeartbeatGap } from './heartbeat';
-import { getCurrentPosture, switchPosture } from './posture';
+import { showSitReminderNotification } from './notifications';
+import { getCurrentPosture, getCurrentSittingDurationMs, switchPosture } from './posture';
 import { getSettings } from './settings';
 import type { DayData, Posture, Settings } from './types';
 
@@ -27,6 +29,11 @@ export function registerMessageHandler(): void {
       await switchPosture(msg.posture);
       const posture = await getCurrentPosture();
       return buildStateResponse(posture);
+    }
+    if (msg.type === 'TEST_NOTIFICATION') {
+      const sittingMs = (await getCurrentSittingDurationMs()) ?? SIT_THRESHOLD_MS;
+      await showSitReminderNotification(sittingMs);
+      return { ok: true as const };
     }
   });
 }
