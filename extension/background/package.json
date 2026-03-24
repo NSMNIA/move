@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
-    "build": "tsc -p .",
-    "dev": "pnpm run build --watch "
+    "build": "esbuild index.ts --bundle --outfile=../../output/background.js --platform=neutral --target=es2020 --format=iife --minify-whitespace --minify-identifiers --minify-syntax && node ../copy-manifest.mjs",
+    "dev": "esbuild index.ts --bundle --outfile=../../output/background.js --platform=neutral --target=es2020 --format=iife --watch",
+    "typecheck": "tsc -p ."
   },
   "devDependencies": {
+    "esbuild": "^0.24.2",
     "typescript": "^5.3.3"
   }
 }

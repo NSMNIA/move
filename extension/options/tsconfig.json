@@ -4,12 +4,10 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strict": true,
-    "strictNullChecks": true,
-    "esModuleInterop": true,
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "noEmit": true,
-    "lib": ["ES2020"]
+    "lib": ["ES2020", "DOM"]
   },
   "include": ["./**/*.ts"]
 }

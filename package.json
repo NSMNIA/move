@@ -28,5 +28,8 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "dependencies": {
+    "html-minifier-terser": "^7.2.0"
   }
 }
