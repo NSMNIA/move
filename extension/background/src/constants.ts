@@ -6,6 +6,9 @@ export const SIT_THRESHOLD_MS = 45 * 60 * 1000;
 export const SIT_REPEAT_MS = 15 * 60 * 1000;
 export const SIT_ALARM_NAME = 'sitTooLong';
 
+/** If the user is idle for this long, count as browser inactive / closed (ms). */
+export const IDLE_DURATION_MS = 5 * 60 * 1000;
+
 /** Missed heartbeats longer than this → count as browser inactive / closed (ms). */
 export const GAP_OFFLINE_MS = 15 * 60 * 1000;
 /** Max offline attributed in one gap event (ms). */

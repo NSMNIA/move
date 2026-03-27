@@ -1,3 +1,4 @@
+import { IDLE_DURATION_MS } from './constants';
 import { getDateString } from './days';
 import { addOfflineMsForDate, resumeAsSittingAfterOffline } from './offline';
 
@@ -12,7 +13,7 @@ export function initIdleTracking(): void {
     if (state === 'active') {
       if (idleStartedAt !== null) {
         const dur = Date.now() - idleStartedAt;
-        if (dur >= 30_000) {
+        if (dur >= IDLE_DURATION_MS) {
           void (async () => {
             await addOfflineMsForDate(getDateString(Date.now()), dur);
             await resumeAsSittingAfterOffline();
