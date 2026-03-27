@@ -24,14 +24,14 @@
       o.sort((n, _) => n.date.localeCompare(_.date)),
       await browser.storage.local.set({ [d]: o.slice(-8) }));
   }
-  async function H(t) {
+  async function L(t) {
     return (await I()).find((a) => a.date === t) ?? { date: t, sessions: [], offlineMs: 0 };
   }
   function f(t) {
     let e = new Date(t);
     return `${e.getFullYear()}-${String(e.getMonth() + 1).padStart(2, '0')}-${String(e.getDate()).padStart(2, '0')}`;
   }
-  async function L() {
+  async function H() {
     let t = await I(),
       e = new Map(t.map((n) => [n.date, n])),
       a = [],
@@ -39,8 +39,8 @@
       r = new Date(o.getFullYear(), o.getMonth(), o.getDate() - 6);
     for (let n = 0; n < 7; n++) {
       let _ = new Date(r.getFullYear(), r.getMonth(), r.getDate() + n),
-        k = f(_.getTime());
-      a.push(D(e.get(k) ?? { date: k, sessions: [], offlineMs: 0 }));
+        O = f(_.getTime());
+      a.push(D(e.get(O) ?? { date: O, sessions: [], offlineMs: 0 }));
     }
     return a;
   }
@@ -74,7 +74,7 @@
   async function A(t, e) {
     if (e <= 0) return;
     let a = Math.min(e, 864e5),
-      o = await H(t);
+      o = await L(t);
     ((o.offlineMs += a), await c(o));
   }
   async function M() {
@@ -112,7 +112,7 @@
         if (t === 'active') {
           if (h !== null) {
             let e = Date.now() - h;
-            (e >= 3e4 && (async () => (await A(f(Date.now()), e), await M()))(), (h = null));
+            (e >= 3e5 && (async () => (await A(f(Date.now()), e), await M()))(), (h = null));
           }
         } else h = Date.now();
       }));
@@ -129,7 +129,7 @@
     "Remember, the only time it's okay to be a couch potato is... actually, just stand up.",
     'Your spine called. It says it misses being vertical. Please stand up.',
   ];
-  function q(t) {
+  function V(t) {
     let e = Math.max(0, Math.floor(t / 6e4));
     if (e < 1) return 'under a minute';
     let a = Math.floor(e / 60),
@@ -144,17 +144,17 @@
     (t) => `BlobFish mode: ${t} seated`,
     (t) => `${t} sitting \u2014 your spine is asking for a break`,
   ];
-  function V(t) {
-    let e = q(t),
+  function J(t) {
+    let e = V(t),
       a = G[Math.floor(Math.random() * G.length)];
     return a(e);
   }
-  function J() {
+  function Q() {
     return Y[Math.floor(Math.random() * Y.length)];
   }
   async function E(t) {
-    let e = V(t),
-      a = J(),
+    let e = J(t),
+      a = Q(),
       o = browser.runtime.getURL('icons/128.png'),
       r = { type: 'basic', title: e, message: a };
     try {
@@ -165,7 +165,7 @@
   }
   async function $(t) {
     let e = await i(),
-      a = await L(),
+      a = await H(),
       o = await p();
     return { posture: t, day: e, week: a, settings: o };
   }
